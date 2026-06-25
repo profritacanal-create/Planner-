@@ -3,32 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Planner 2026</title>
+    <title>Teste do App</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-
     <div id="root"></div>
 
     <script type="text/babel">
-        
-        // --- SEU CÓDIGO DO PLANNER COMEÇA AQUI ---
-        // Nota: Para funcionar neste formato simples, as funções e subcomponentes
-        // precisam estar todos declarados aqui dentro.
-        
         function App() {
             return (
-                <div className="min-h-screen bg-slate-100 p-5 flex flex-col items-center justify-center">
-                    <h1 className="text-4xl font-bold text-red-600 mb-4">✨ Meu Planner 2026</h1>
-                    <p className="text-slate-600">O aplicativo foi conectado com sucesso!</p>
+                <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
+                    <h1>Olá! O React está funcionando! 🎉</h1>
+                    <p>Se você está vendo esta mensagem, o seu GitHub Pages está configurado certinho.</p>
                 </div>
             );
         }
 
-        // Inicializa o app na tela
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
