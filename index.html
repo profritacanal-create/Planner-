@@ -3,20 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste do App</title>
+    <title>Docente Planner 2026</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
     <div id="root"></div>
 
     <script type="text/babel">
+        // --- SEU APLICATIVO ADAPTADO PARA RODAR DIRETO NO NAVEGADOR ---
         function App() {
+            const [currentView, setCurrentView] = window.React.useState('dashboard');
+            const [tarefas, setTarefas] = window.React.useState([
+                { id: '1', texto: 'Rever planos de aula de Gramática', concluida: false },
+                { id: '2', texto: 'Responder aos comentários do YouTube', concluida: false },
+                { id: '3', texto: 'Comprar cartolinas para o projeto', concluida: true }
+            ]);
+            const [novaTarefa, setNovaTarefa] = window.React.useState('');
+
+            const adicionarTarefa = () => {
+                if (!novaTarefa.trim()) return;
+                setTarefas([...tarefas, { id: Date.now().toString(), texto: novaTarefa, concluida: false }]);
+                setNovaTarefa('');
+            };
+
+            const toggleTarefa = (id) => {
+                setTarefas(tarefas.map(t => t.id === id ? { ...t, concluida: !t.concluida } : t));
+            };
+
             return (
-                <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
-                    <h1>Olá! O React está funcionando! 🎉</h1>
-                    <p>Se você está vendo esta mensagem, o seu GitHub Pages está configurado certinho.</p>
+                <div class="min-h-screen flex flex-col pb-20">
+                    {/* TOPO */}
+                    <header class="bg-white border-b border-slate-200 p-4 sticky top-0 shadow-sm z-10">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">✨</span>
+                            <h1 class="font-black text-slate-800 text-lg">Docente Planner 2026</h1>
+                        </div>
+                    </header>
+
+                    {/* CONTEÚDO */}
+                    <main class="flex-1 p-4 max-w-md mx-auto w-full">
+                        {currentView === 'dashboard' && (
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white rounded-2xl p-5 shadow-md">
+                                    <h2 class="text-xl font-bold">Olá, Professora! 👩‍🏫</h2>
+                                    <p class="text-xs text-teal-100 mt-1">Seu centro integrado de produtividade letiva está online.</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onClick={() => setCurrentView('tarefas')} class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm text-left">
+                                        <span class="text-xl block mb-1">✅</span>
+                                        <span class="font-bold text-xs block">Lista de Tarefas</span>
+                                        <span class="text-[10px] text-slate-400">Gerenciar pendências</span>
+                                    </button>
+                                    <button onClick={() => alert('Em breve no seu app!')} class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm text-left">
+                                        <span class="text-xl block mb-1">📅</span>
+                                        <span class="font-bold text-xs block">Grade de Aulas</span>
+                                        <span class="text-[10px] text-slate-400">Ver horários</span>
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentView === 'tarefas' && (
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-base font-bold">Minhas Tarefas Letivas</h2>
+                                    <button onClick={() => setCurrentView('dashboard')} class="text-xs font-bold text-emerald-600">Voltar</button>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Nova tarefa..." 
+                                        value={novaTarefa}
+                                        onChange={(e) => setNovaTarefa(e.target.value)}
+                                        class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs bg-white"
+                                    />
+                                    <button onClick={adicionarTarefa} class="bg-emerald-600 text-white px-4 rounded-xl text-xs font-bold">Adicionar</button>
+                                </div>
+
+                                <div class="space-y-2">
+                                    {tarefas.map(t => (
+                                        <div key={t.id} onClick={() => toggleTarefa(t.id)} class="bg-white border border-slate-200 p-3 rounded-xl flex items-center gap-3 shadow-sm">
+                                            <span>{t.concluida ? '🟢' : '⚪'}</span>
+                                            <span class={`text-xs ${t.concluida ? 'line-through text-slate-400' : 'text-slate-700'}`}>{t.texto}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </main>
+
+                    {/* MENU INFERIOR */}
+                    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-2 px-6 flex justify-around shadow-lg">
+                        <button onClick={() => setCurrentView('dashboard')} class="flex flex-col items-center">
+                            <span class="text-lg">🏠</span>
+                            <span class="text-[9px] font-bold mt-0.5">Início</span>
+                        </button>
+                        <button onClick={() => setCurrentView('tarefas')} class="flex flex-col items-center">
+                            <span class="text-lg">✅</span>
+                            <span class="text-[9px] font-bold mt-0.5">Tarefas</span>
+                        </button>
+                    </nav>
                 </div>
             );
         }
